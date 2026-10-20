@@ -1,0 +1,31 @@
+[project]
+name = "invest-research-agent"
+version = "0.1.0"
+description = "Auditable multi-agent investment research reports"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "crewai[google-genai]>=1.0,<2",
+  "openai>=2.30,<3",
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.30,<1",
+  "httpx>=0.27,<1",
+  "pydantic>=2.8,<3",
+  "pymupdf>=1.24,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+invest-research = "invest_research.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/invest_research"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

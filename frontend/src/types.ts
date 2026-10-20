@@ -1,0 +1,9 @@
+export type RunStatus = 'queued' | 'running' | 'needs_input' | 'needs_review' | 'succeeded' | 'failed'
+export type Stage = { name: string; status: RunStatus; attempts: number; started_at: string | null; finished_at: string | null; artifact_ids: string[]; error: string | null }
+export type Candidate = { cik: number; ticker: string; legal_name: string }
+export type Run = { id: string; request: { company_name: string; ticker?: string; as_of_date: string; report_periods: number }; status: RunStatus; stage: string; error: string | null; candidates: Candidate[]; created_at: string; updated_at: string; stages: Stage[]; events: { stage: string; tool: string; status: string; latency_ms: number; error_code: string | null; created_at: string }[] }
+export type Source = { source_id: string; title: string; url: string; publisher: string; published_at: string | null }
+export type Metric = { metric_id: string; name: string; value: number | null; unit: string; period: string; formula: string; status: string; reason: string | null; source_ids: string[] }
+export type Issue = { stage: string; severity: 'blocking' | 'warning'; message: string; action: string }
+export type Supplement = { title: string; url: string; published_at: string; content: string }
+export type Artifacts = Record<string, unknown> & { '01_sources.json'?: Source[]; '02_metrics.json'?: Metric[]; '01_research.json'?: { gaps?: string[]; limitations?: string[]; evidence?: { claim: string; source_id: string; quote: string; verdict: string; explanation: string }[] }; '02_analysis.json'?: { gaps?: string[]; limitations?: string[] }; 'revision.json'?: { parent_run_id: string; supplements: Supplement[] }; '04_validation.json'?: { errors: string[]; gaps: string[]; passed: boolean; issues?: Issue[]; warnings?: string[] } }
